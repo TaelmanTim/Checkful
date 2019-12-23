@@ -7,7 +7,7 @@ const User = require("../models/user");
 router.get("/", async (request, response) => {
   try {
     const users = await User.find();
-    response.json(users);
+    response.status(200).json(users);
   } 
   catch(error) {
     response.status(500).send(error.message);
@@ -22,7 +22,7 @@ router.get("/:id", async (request, response) => {
       return response.status(404).send("Could not find a user with this ID");
     }
 
-    response.json(user);
+    response.status(200).json(user);
   }
   catch (error) {
     response.status(500).send(error.message);
@@ -50,7 +50,7 @@ router.post("/add", async (request, response) => {
     });
 
     await newUser.save();
-    response.send(true);
+    response.status(201).json(newUser);
   } 
   catch(error) {
     response.status(500).send(error.message);
@@ -80,7 +80,7 @@ router.put("/update", async (request, response) => {
       sharedLists: request.body.sharedLists
     });
 
-    response.send(true);
+    response.status(204).send(true);
   } 
   catch(error) {
     response.status(500).send(error.message);
@@ -97,7 +97,7 @@ router.delete("/:id", async (request, response) => {
       return response.status(404).send("Could not find a user with this ID");
     }
     
-    response.send(true);
+    response.status(204).send(true);
   }
   catch (error) {
     response.status(500).send(error.message);
